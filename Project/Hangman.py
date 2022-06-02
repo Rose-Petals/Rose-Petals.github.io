@@ -94,7 +94,7 @@ def hangman():
         print("Great Choice! Let's start")
         time.sleep(.1)
         chosen_word = choose_word(game_type).lower()
-        print(chosen_word)
+        #print(chosen_word)
         print (hang_man_picture(0))
         time.sleep(.1)
         guess(chosen_word)
