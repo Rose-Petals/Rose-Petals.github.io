@@ -4,18 +4,14 @@ import sys
 import random
 import time
 from traceback import print_tb
-
 from numpy import append
 
 def got_letter(word, letter, blanks_string):
     blanks_new= blanks_string
-    updated_blanks: str
     index = 0
     for let in word:  
         if let == letter:
-            for let in word:
-                blanks_new = blanks_new[:index] + letter + blanks_new[index+1:]
-           # print(blanks_new)
+            blanks_new = blanks_new[:index] + letter + blanks_new[index+1:]
         index+=1
     return blanks_new
 
@@ -48,41 +44,38 @@ def hang_man_picture(fails: int):
 
 def guess(word):
     guess_list=[]
-    tries= 0
     fails=0
     word= word.rstrip("\n")
     blanks= ("_"*len(word))
     print(blanks)
     solved = False
-    while(solved != True and fails < 7): 
+    while(solved != True or fails < 7): 
         print("\nGuess a letter")
-        letter = input()
+        letter = input().lower()
 
-        if letter not in guess_list and letter in word:
-            #guess_list.append(letter)
-            print("That letter is in the word!")
-            tries+=1
-            blanks = got_letter(word, letter, blanks)
-            print(blanks)
-            if "_" not in blanks:
-                solved = True
-                print("Congratulations! You did it!( ͡❛ ‿‿ ͡❛) \n Would you like to play again? type yes or no ")
-                if input().lower() == "yes":
-                    hangman()
-                else:
-                   print("Okay! Hope you had fun!")
-                
-        elif letter in guess_list:
+        if letter in guess_list:
             print(f"You already guessed that silly. Here is what you have already guesses: {guess_list} \nTry another letter")
-        else :
-            tries+=1
-            fails+=1
-            print("That's wrong TT^TT")
-            time.sleep(.1)
-            print(hang_man_picture(fails))
-            print(blanks)
-        if letter not in guess_list:
+        else:
+            if letter in word:
+                print("That letter is in the word!")
+                blanks = got_letter(word, letter, blanks)
+                print(blanks)
+                if "_" not in blanks:
+                    solved = True
+                    print("Congratulations! You did it!( ͡❛ ‿‿ ͡❛) \n Would you like to play again? type yes or no ")
+                    if input().lower() == "yes":
+                        hangman()
+                    else:
+                        print("Okay! Hope you had fun!")
+            else:
+                fails+=1
+                print("That's wrong TT^TT")
+                time.sleep(.1)
+                print(hang_man_picture(fails))
+                print(blanks)
+            
             guess_list.append(letter)
+
     print(f"\nYou lost :(\n The answer was {word}\n Would you like to play again?")
     if input().lower() == "yes":
                     hangman()
@@ -100,9 +93,8 @@ def hangman():
         time.sleep(.2)
         print("Great Choice! Let's start")
         time.sleep(.1)
-   # if (game_type == "movies"):
         chosen_word = choose_word(game_type).lower()
-       # print(chosen_word)
+        print(chosen_word)
         print (hang_man_picture(0))
         time.sleep(.1)
         guess(chosen_word)
