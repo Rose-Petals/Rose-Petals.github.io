@@ -1,10 +1,5 @@
-from multiprocessing import managers
-import os
-import sys
 import random
 import time
-from traceback import print_tb
-from numpy import append
 
 def got_letter(word, letter, blanks_string):
     blanks_new= blanks_string
