@@ -27,7 +27,7 @@ public class Main {
                 
             }
         }
-
+        input.close();
     }
     
     public static String guess(int guessNum , int num)
